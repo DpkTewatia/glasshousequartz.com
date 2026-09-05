@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Design tokens
+ * ------------------------------------------------------------------ */
+:root {
+  --ink: #0b0b0c;
+  --ink-700: #3a3a40;
+  --ink-500: #6b6b73;
+  --ink-300: #b4b4bb;
+  --line: #e6e6e8;
+  --line-soft: #f0f0f1;
+  --surface: #ffffff;
+  --surface-sunk: #fafafa;
+  --quartz: #14304a;
+
+  --header-h: 4.25rem;
+  --ease-gallery: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ *
+ * Bootstrap, re-themed
+ * ------------------------------------------------------------------ *
+ * Bootstrap 5.3 is entirely CSS-variable driven, so rather than fighting it
+ * with overrides we simply hand it our tokens. Its Reboot, grid and JS
+ * components (offcanvas, dropdown, collapse) then render in the gallery
+ * palette instead of Bootstrap blue.
+ */
+:root {
+  --bs-body-font-family: var(--font-sans), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bs-body-color: var(--ink);
+  --bs-body-bg: var(--surface);
+  --bs-border-color: var(--line);
+  --bs-border-radius: 0;
+  --bs-border-radius-sm: 0;
+  --bs-border-radius-lg: 0;
+  --bs-link-color: var(--ink);
+  --bs-link-hover-color: var(--quartz);
+  --bs-emphasis-color: var(--ink);
+  --bs-secondary-color: var(--ink-500);
+  --bs-tertiary-color: var(--ink-300);
+  --bs-primary: var(--ink);
+  --bs-focus-ring-color: rgb(20 48 74 / 0.28);
+  --bs-focus-ring-width: 2px;
+  --bs-offcanvas-width: 25rem;
+  --bs-offcanvas-border-color: var(--line);
+  --bs-offcanvas-bg: var(--surface);
+  --bs-dropdown-border-color: var(--line);
+  --bs-dropdown-border-radius: 0;
+  --bs-dropdown-link-active-bg: var(--surface-sunk);
+  --bs-dropdown-link-active-color: var(--ink);
+  --bs-dropdown-link-hover-bg: var(--surface-sunk);
+  --bs-backdrop-bg: #0b0b0c;
+  --bs-backdrop-opacity: 0.35;
+}
+
+/* Reboot sets these from its own scale; the gallery wants a tighter rhythm. */
+body {
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 500;
+}
+
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Bootstrap's offcanvas is the only component whose behaviour we borrow;
+   strip its chrome so it reads as part of the gallery. */
+.offcanvas {
+  border-left: 1px solid var(--line);
+  box-shadow: -24px 0 60px -30px rgb(11 11 12 / 0.25);
+}
+
+/* ------------------------------------------------------------------ *
+ * Focus: visible, but only for keyboard users
+ * ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--quartz);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ------------------------------------------------------------------ *
+ * Components
+ * ------------------------------------------------------------------ */
+@layer components {
+  /* A hairline that reads as a gallery wall division, not a border. */
+  .rule {
+    @apply border-0 border-t border-line m-0;
+  }
+
+  .u-label {
+    @apply text-label font-medium uppercase text-ink-500;
+  }
+
+  .u-container {
+    @apply mx-auto w-full max-w-[88rem] px-gutter;
+  }
+
+  /* Buttons: solid ink, or a hairline outline. No radius anywhere. */
+  .btn-ink {
+    @apply inline-flex items-center justify-center gap-2 bg-ink px-7 py-3.5
+           text-label-lg font-medium uppercase text-white
+           transition-colors duration-300 ease-gallery
+           hover:bg-ink-700 disabled:cursor-not-allowed disabled:bg-ink-300;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-ink
+           bg-transparent px-7 py-3.5 text-label-lg font-medium uppercase text-ink
+           transition-colors duration-300 ease-gallery
+           hover:bg-ink hover:text-white;
+  }
+
+  .btn-quiet {
+    @apply inline-flex items-center gap-1.5 text-label-lg font-medium uppercase
+           text-ink transition-opacity duration-200 hover:opacity-60;
+  }
+
+  /* The underline that draws itself on hover — used for nav and text links. */
+  .link-draw {
+    @apply relative inline-block;
+  }
+  .link-draw::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-gallery);
+  }
+  .link-draw:hover::after,
+  .link-draw[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .field {
+    @apply w-full border-0 border-b border-line bg-transparent px-0 py-3
+           text-[0.95rem] text-ink placeholder:text-ink-400
+           transition-colors duration-200 focus:border-ink focus:outline-none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Utilities
+ * ------------------------------------------------------------------ */
+@layer utilities {
+  /* Most of this catalog is clear glass and quartz photographed on a white
+     sweep. Objects sit on a light grey plinth with a hairline edge, so a
+     colourless rim has something to read against. */
+  .media-panel {
+    background:
+      radial-gradient(115% 85% at 50% 18%, #fbfbfc 0%, #f1f1f3 55%, #e8e8ec 100%);
+    box-shadow: inset 0 0 0 1px rgb(11 11 12 / 0.045);
+  }
+
+  /* For the wide editorial bands, where the object is larger. */
+  .media-panel-wide {
+    background: linear-gradient(180deg, #f7f7f9 0%, #eeeef1 100%);
+    box-shadow: inset 0 0 0 1px rgb(11 11 12 / 0.05);
+  }
+
+  /*
+   * The photography has its own white background baked in, so a plain <img>
+   * lays an opaque white rectangle over the plinth and the panel is wasted.
+   * Multiply blending drops those white pixels to the panel colour while
+   * darkening everything else, which both reveals the plinth and rescues the
+   * edges of clear glass. It also evens out the different white points across
+   * photos shot in different sessions.
+   *
+   * Safe here because every panel behind it is light; on a dark ground this
+   * would crush the product instead.
+   */
+  .product-media {
+    mix-blend-mode: multiply;
+  }
+
+  /* Blending needs an isolated stacking context, or it composites against
+     whatever happens to be painted behind the section. */
+  .media-panel,
+  .media-panel-wide {
+    isolation: isolate;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .link-draw::after { transition: none; }
+}
