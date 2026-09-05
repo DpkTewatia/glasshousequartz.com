@@ -72,7 +72,7 @@ export default function CartContents({
                     alt={line.product.imageAlt}
                     fill
                     sizes="128px"
-                    className="product-media object-contain p-2"
+                    className="object-contain p-2"
                   />
                 )}
               </Link>

@@ -1,52 +1,70 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useSyncExternalStore } from 'react';
 import { SITE } from '@/lib/site';
 
 const KEY = 'ghq_age_ok';
 
+/* ------------------------------------------------------------------ *
+ * localStorage as an external store
+ * ------------------------------------------------------------------ *
+ * The confirmation lives in the browser, which React cannot read while
+ * rendering on the server. useSyncExternalStore is the primitive for exactly
+ * this: `getServerSnapshot` returns "already confirmed" so the prerendered
+ * HTML never contains a blocking overlay — good for crawlers, and it means
+ * the static page is identical for everyone — while `getSnapshot` reads the
+ * real value on the client and React re-renders once after hydration.
+ */
+
+const listeners = new Set<() => void>();
+
+function subscribe(onChange: () => void) {
+  listeners.add(onChange);
+  // Another tab confirming should dismiss the gate here too.
+  window.addEventListener('storage', onChange);
+  return () => {
+    listeners.delete(onChange);
+    window.removeEventListener('storage', onChange);
+  };
+}
+
+function getSnapshot(): boolean {
+  try {
+    return window.localStorage.getItem(KEY) === '1';
+  } catch {
+    // Private browsing or blocked storage: ask again this session.
+    return false;
+  }
+}
+
+const getServerSnapshot = (): boolean => true;
+
 /**
- * Age confirmation.
- *
- * Smoking accessories are age-restricted, and every serious retailer in this
- * category gates the storefront. The choice is kept in localStorage rather
- * than a cookie because it is a per-device preference, not something the
- * server needs.
- *
- * It renders nothing until mounted so the server and client markup agree, and
- * so search engine crawlers are never served a blocking overlay.
+ * Age confirmation. Smoking accessories are age-restricted and every serious
+ * retailer in this category gates the storefront.
  */
 export default function AgeGate() {
-  const [state, setState] = useState<'pending' | 'open' | 'closed'>('pending');
+  const confirmed = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useEffect(() => {
-    let confirmed = false;
-    try {
-      confirmed = window.localStorage.getItem(KEY) === '1';
-    } catch {
-      // Private browsing or blocked storage: ask again this session.
-    }
-    setState(confirmed ? 'closed' : 'open');
-  }, []);
-
-  useEffect(() => {
-    if (state !== 'open') return;
-    const prev = document.body.style.overflow;
+    if (confirmed) return;
+    const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = previous;
     };
-  }, [state]);
+  }, [confirmed]);
 
-  if (state !== 'open') return null;
+  if (confirmed) return null;
 
   const accept = () => {
     try {
       window.localStorage.setItem(KEY, '1');
     } catch {
-      /* ignore */
+      /* Storage unavailable — the gate simply reappears next visit. */
     }
-    setState('closed');
+    for (const l of listeners) l();
   };
 
   return (
@@ -77,9 +95,9 @@ export default function AgeGate() {
 
         <p className="mt-8 text-xs leading-relaxed text-ink-400">
           By entering you agree to our{' '}
-          <a href="/pages/terms-and-conditions" className="link-draw text-ink">
+          <Link href="/pages/terms-and-conditions" className="link-draw text-ink">
             Terms &amp; Conditions
-          </a>
+          </Link>
           .
         </p>
       </div>

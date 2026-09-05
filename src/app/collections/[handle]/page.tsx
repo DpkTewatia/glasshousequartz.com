@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import CollectionProducts from '@/components/commerce/CollectionProducts';
+import ProductGrid from '@/components/commerce/ProductGrid';
 import { getCollection, getCollections, getProductsInCollection, sortProducts } from '@/lib/catalog';
 
 export async function generateStaticParams() {
@@ -85,8 +87,12 @@ export default async function CollectionPage({
       </section>
 
       {/* Products */}
-      <section className="u-container py-12 md:py-16">
-        <CollectionProducts products={products} />
+      <section className="u-container py-9 md:py-12">
+        {/* CollectionProducts reads ?sort= via useSearchParams, which needs a
+            Suspense boundary for this page to stay statically prerendered. */}
+        <Suspense fallback={<ProductGrid products={products} />}>
+          <CollectionProducts products={products} />
+        </Suspense>
       </section>
     </>
   );

@@ -36,7 +36,7 @@ export default function ProductCard({
                 fill
                 sizes={sizes}
                 priority={priority}
-                className={`product-media object-contain p-5 transition-all duration-700 ease-gallery ${
+                className={`object-contain p-2 transition-all duration-700 ease-gallery ${
                   second ? 'group-hover:opacity-0' : 'group-hover:scale-105'
                 }`}
               />
@@ -48,7 +48,7 @@ export default function ProductCard({
                   fill
                   sizes={sizes}
                   loading="lazy"
-                  className="product-media object-contain p-5 opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
+                  className="object-contain p-2 opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
                 />
               )}
             </>

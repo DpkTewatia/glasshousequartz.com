@@ -22,7 +22,7 @@ export default function CollectionRail({ collections }: { collections: Collectio
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 72vw"
-                  className="product-media object-contain p-6 transition-transform duration-700 ease-gallery group-hover:scale-105"
+                  className="object-contain p-3 transition-transform duration-700 ease-gallery group-hover:scale-105"
                 />
               )}
               <span className="absolute bottom-0 left-0 bg-surface px-4 py-2 text-label uppercase text-ink-500">

@@ -50,7 +50,7 @@ export default function ProductGallery({
                   alt=""
                   fill
                   sizes="80px"
-                  className="product-media object-contain p-1.5"
+                  className="object-contain p-1.5"
                 />
               </button>
             </li>
@@ -66,7 +66,7 @@ export default function ProductGallery({
           fill
           priority
           sizes="(min-width: 1024px) 46vw, 100vw"
-          className="product-media animate-fade object-contain p-6 md:p-10"
+          className="animate-fade object-contain p-4 md:p-6"
         />
 
         {images.length > 1 && (

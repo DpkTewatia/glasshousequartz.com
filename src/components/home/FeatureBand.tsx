@@ -78,7 +78,7 @@ export default function FeatureBand({
               alt={imageAlt}
               fill
               sizes="(min-width: 1024px) 46vw, 100vw"
-              className="product-media object-contain p-5 md:p-8"
+              className="object-contain p-3 md:p-5"
             />
           </div>
         </div>

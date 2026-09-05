@@ -68,7 +68,7 @@ export default function CartDrawer() {
                       alt={line.product.imageAlt}
                       fill
                       sizes="80px"
-                      className="product-media object-contain p-1.5"
+                      className="object-contain p-1.5"
                     />
                   )}
                 </Link>

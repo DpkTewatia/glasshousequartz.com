@@ -13,7 +13,6 @@ import mysql from 'mysql2/promise';
  */
 
 declare global {
-  // eslint-disable-next-line no-var
   var __ghqPool: mysql.Pool | undefined;
 }
 

@@ -56,37 +56,60 @@
   --bs-backdrop-opacity: 0.35;
 }
 
-/* Reboot sets these from its own scale; the gallery wants a tighter rhythm. */
-body {
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  background: var(--surface);
-  color: var(--ink);
-}
+/*
+ * Element resets go in @layer base, not at the top level. Anything written
+ * outside a layer beats every layered rule at equal specificity, which would
+ * silently make `font-bold` or `text-left` lose to these element selectors.
+ * Inside the base layer they sit where Tailwind expects them: below components
+ * and utilities.
+ */
+@layer base {
+  /* Reboot sets these from its own scale; the gallery wants a tighter rhythm. */
+  body {
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    background: var(--surface);
+    color: var(--ink);
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: 500;
-}
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 500;
+  }
 
-p { margin: 0; }
-ul, ol { margin: 0; padding: 0; }
+  p { margin: 0; }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  /* Reboot keeps list markers. Every list here is navigation or a product
+     grid, so markers are noise — breadcrumbs in particular came out numbered. */
+  ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
-img, svg, video {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button {
-  font: inherit;
-  color: inherit;
+  img, svg, video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Reboot leaves the UA button border and background in place. We never use
+     Bootstrap's own .btn class, so clearing it here is safe, and our button
+     styles live in @layer components where they still win. */
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: inherit;
+  }
 }
 
 /* Bootstrap's offcanvas is the only component whose behaviour we borrow;
@@ -175,41 +198,30 @@ button {
  * Utilities
  * ------------------------------------------------------------------ */
 @layer utilities {
-  /* Most of this catalog is clear glass and quartz photographed on a white
-     sweep. Objects sit on a light grey plinth with a hairline edge, so a
-     colourless rim has something to read against. */
+  /*
+   * The panel behind every product shot.
+   *
+   * These photos carry their own studio sweep, and it is not white — sampled,
+   * it runs from rgb(249) at the centre down to rgb(236) in the corners. So
+   * the panel is tuned to rgb(250): the photo's backdrop lands within a level
+   * or two of it and the edge of the image simply disappears, while the
+   * corners fall away as a soft vignette that grounds the object.
+   *
+   * (Multiply blending was the other candidate. It cannot work here — it is
+   * only seamless when the photo's background is pure white, which none of
+   * these are, so it leaves a visible rectangle instead.)
+   *
+   * The hairline keeps the card readable as a card on a white page.
+   */
   .media-panel {
-    background:
-      radial-gradient(115% 85% at 50% 18%, #fbfbfc 0%, #f1f1f3 55%, #e8e8ec 100%);
-    box-shadow: inset 0 0 0 1px rgb(11 11 12 / 0.045);
+    background: #fafafa;
+    box-shadow: inset 0 0 0 1px rgb(11 11 12 / 0.05);
   }
 
   /* For the wide editorial bands, where the object is larger. */
   .media-panel-wide {
-    background: linear-gradient(180deg, #f7f7f9 0%, #eeeef1 100%);
+    background: #fafafa;
     box-shadow: inset 0 0 0 1px rgb(11 11 12 / 0.05);
-  }
-
-  /*
-   * The photography has its own white background baked in, so a plain <img>
-   * lays an opaque white rectangle over the plinth and the panel is wasted.
-   * Multiply blending drops those white pixels to the panel colour while
-   * darkening everything else, which both reveals the plinth and rescues the
-   * edges of clear glass. It also evens out the different white points across
-   * photos shot in different sessions.
-   *
-   * Safe here because every panel behind it is light; on a dark ground this
-   * would crush the product instead.
-   */
-  .product-media {
-    mix-blend-mode: multiply;
-  }
-
-  /* Blending needs an isolated stacking context, or it composites against
-     whatever happens to be painted behind the section. */
-  .media-panel,
-  .media-panel-wide {
-    isolation: isolate;
   }
 
   .hide-scrollbar {

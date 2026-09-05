@@ -66,7 +66,7 @@ export default function Hero({ product }: { product: Product | null }) {
                     fill
                     priority
                     sizes="(min-width: 1024px) 46vw, 100vw"
-                    className="product-media object-contain p-6 transition-transform duration-1000 ease-gallery group-hover:scale-[1.03] md:p-10"
+                    className="object-contain p-4 transition-transform duration-1000 ease-gallery group-hover:scale-[1.03] md:p-6"
                   />
                 )}
               </div>
