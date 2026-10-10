@@ -171,6 +171,14 @@
            hover:bg-ink hover:text-white;
   }
 
+  /* The outline button, for use on an ink ground. */
+  .btn-outline-inverse {
+    @apply inline-flex items-center justify-center gap-2 border border-white/60
+           bg-transparent px-7 py-3.5 text-label-lg font-medium uppercase text-white
+           transition-colors duration-300 ease-gallery
+           hover:border-white hover:bg-white hover:text-ink;
+  }
+
   .btn-quiet {
     @apply inline-flex items-center gap-1.5 text-label-lg font-medium uppercase
            text-ink transition-opacity duration-200 hover:opacity-60;
@@ -243,8 +251,50 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Ink surfaces
+ * ------------------------------------------------------------------ */
+::selection {
+  background: var(--ink);
+  color: #fff;
+}
+.on-ink ::selection {
+  background: #fff;
+  color: var(--ink);
+}
+/* The quartz focus ring disappears against ink. */
+.on-ink :focus-visible {
+  outline-color: #fff;
+}
+
+/* ------------------------------------------------------------------ *
  * Motion
  * ------------------------------------------------------------------ */
+/*
+ * Scroll reveal, driven by the element's own position in the viewport rather
+ * than by script. It is pure enhancement: a browser without scroll-driven
+ * animations, or a visitor who asked for reduced motion, never enters this
+ * block and simply sees the content — nothing is hidden waiting on JS.
+ */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

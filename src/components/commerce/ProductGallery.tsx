@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { imageAspect, seamFade } from '@/lib/media';
 import type { ProductImage } from '@/lib/types';
 
 /**
@@ -27,6 +28,11 @@ export default function ProductGallery({
 
   const current = images[active] ?? images[0];
 
+  // The frame takes the shape of the lead photo (between square and 3:2) so
+  // that photo fills it edge to edge. It is fixed to the first image rather
+  // than the active one so the page does not jump as thumbnails are clicked.
+  const panelAspect = Math.min(1.5, Math.max(1, imageAspect(images[0]) ?? 1));
+
   return (
     <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-6">
       {images.length > 1 && (
@@ -50,6 +56,7 @@ export default function ProductGallery({
                   alt=""
                   fill
                   sizes="80px"
+                  style={seamFade(imageAspect(img))}
                   className="object-contain object-bottom"
                 />
               </button>
@@ -58,7 +65,10 @@ export default function ProductGallery({
         </ul>
       )}
 
-      <div className="media-panel relative aspect-square flex-1 overflow-hidden">
+      <div
+        className="media-panel relative flex-1 self-start overflow-hidden"
+        style={{ aspectRatio: panelAspect }}
+      >
         <Image
           key={current.src}
           src={current.src}
@@ -66,6 +76,7 @@ export default function ProductGallery({
           fill
           priority
           sizes="(min-width: 1024px) 46vw, 100vw"
+          style={seamFade(imageAspect(current), panelAspect)}
           className="animate-fade object-contain object-bottom"
         />
 

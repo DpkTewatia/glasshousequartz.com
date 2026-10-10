@@ -184,6 +184,21 @@ export const getCollections = cache(async (): Promise<Collection[]> =>
   [...(await getCatalog()).collections].sort((a, b) => a.sortOrder - b.sortOrder),
 );
 
+/**
+ * Collections only store an image URL, not its dimensions. Their image is
+ * always one of a product's photos, so the shape can be looked up from there.
+ */
+export const getImageAspects = cache(async (): Promise<Map<string, number>> => {
+  const { products } = await getCatalog();
+  const aspects = new Map<string, number>();
+  for (const p of products) {
+    for (const i of p.images) {
+      if (i.width && i.height) aspects.set(i.src, i.width / i.height);
+    }
+  }
+  return aspects;
+});
+
 export const getProduct = cache(async (handle: string): Promise<Product | null> => {
   const { products } = await getCatalog();
   return products.find((p) => p.handle === handle) ?? null;

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { formatPriceRange } from '@/lib/money';
+import { discountPercent, formatPriceRange } from '@/lib/money';
+import { imageAspect, seamFade } from '@/lib/media';
 import type { Product } from '@/lib/types';
 
 /**
@@ -28,9 +29,10 @@ export default function ProductCard({
   const [first, second] = product.images;
   const colourOption = product.options.find((o) => /colou?r/i.test(o.name));
   const swatchCount = colourOption?.values.length ?? 0;
+  const onSale = product.variants.some((v) => discountPercent(v.price, v.compareAtPrice));
 
   return (
-    <article className="group">
+    <article className="reveal group">
       <Link href={`/products/${product.handle}`} className="block">
         <div className="media-panel relative aspect-square overflow-hidden">
           {first ? (
@@ -41,6 +43,7 @@ export default function ProductCard({
                 fill
                 sizes={sizes}
                 priority={priority}
+                style={seamFade(imageAspect(first))}
                 className={`object-contain object-bottom transition-all duration-700 ease-gallery ${
                   second ? 'group-hover:opacity-0' : 'group-hover:scale-105'
                 }`}
@@ -53,6 +56,7 @@ export default function ProductCard({
                   fill
                   sizes={sizes}
                   loading="lazy"
+                  style={seamFade(imageAspect(second))}
                   className="object-contain object-bottom opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
                 />
               )}
@@ -63,11 +67,27 @@ export default function ProductCard({
             </div>
           )}
 
-          {!product.available && (
+          {!product.available ? (
             <span className="absolute left-0 top-0 bg-ink px-3 py-1.5 text-label uppercase text-white">
               Sold out
             </span>
+          ) : (
+            onSale && (
+              <span className="absolute left-0 top-0 bg-sale px-3 py-1.5 text-label uppercase text-white">
+                Sale
+              </span>
+            )
           )}
+
+          {/* Pointer devices only: on touch there is no hover to reveal it. */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 hidden translate-y-full bg-ink py-3 text-center text-label
+                       uppercase text-white transition-transform duration-500 ease-gallery
+                       group-hover:translate-y-0 md:block"
+          >
+            View piece
+          </span>
         </div>
 
         <div className="pt-4">

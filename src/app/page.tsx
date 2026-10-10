@@ -6,7 +6,13 @@ import CollectionRail from '@/components/home/CollectionRail';
 import FeatureBand from '@/components/home/FeatureBand';
 import ProductGrid from '@/components/commerce/ProductGrid';
 import SectionHeader from '@/components/ui/SectionHeader';
-import { getCollection, getCollections, getProductsInCollection, sortProducts } from '@/lib/catalog';
+import {
+  getCollection,
+  getCollections,
+  getImageAspects,
+  getProductsInCollection,
+  sortProducts,
+} from '@/lib/catalog';
 import { MAKER, SITE, STORY } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -17,12 +23,13 @@ export const metadata: Metadata = {
 const FEATURED_HANDLES = ['banger-kits', 'banger-hangers', 'terp-pearls', 'etched-bangers'];
 
 export default async function HomePage() {
-  const [collections, bangerKits, hangers, cookies, etched] = await Promise.all([
+  const [collections, bangerKits, hangers, cookies, etched, aspects] = await Promise.all([
     getCollections(),
     getProductsInCollection('banger-kits'),
     getProductsInCollection('banger-hangers'),
     getCollection('cookies'),
     getCollection('etched-bangers'),
+    getImageAspects(),
   ]);
 
   const featured = FEATURED_HANDLES.map((h) => collections.find((c) => c.handle === h)).filter(
@@ -70,11 +77,11 @@ export default async function HomePage() {
       {/* Brand story */}
       <section className="border-y border-line bg-surface-sunk">
         <div className="u-container grid gap-10 py-band lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
+          <div className="reveal lg:col-span-5">
             <p className="u-label">{STORY.eyebrow}</p>
             <h2 className="mt-5 font-display text-display-lg">{STORY.heading}</h2>
           </div>
-          <div className="max-w-prose space-y-5 lg:col-span-6 lg:col-start-7">
+          <div className="reveal max-w-prose space-y-5 lg:col-span-6 lg:col-start-7">
             {STORY.body.map((p) => (
               <p key={p.slice(0, 24)} className="text-base leading-relaxed text-ink-700">
                 {p}
@@ -103,6 +110,7 @@ export default async function HomePage() {
           cta="Shop Cookies"
           image={cookies.image}
           imageAlt="Cookies glass"
+          imageAspect={cookies.image ? aspects.get(cookies.image) : undefined}
         />
       )}
 
@@ -119,6 +127,7 @@ export default async function HomePage() {
           cta="See the seven styles"
           image={etched.image}
           imageAlt="Trippy Edition etched banger"
+          imageAspect={etched.image ? aspects.get(etched.image) : undefined}
           reverse
           tone="sunk"
         />
@@ -136,10 +145,11 @@ export default async function HomePage() {
         cta="About Chris Morgan"
         image={null}
         imageAlt=""
+        tone="ink"
       />
 
       {/* Full category index — every collection, nothing hidden */}
-      <section className="border-t border-line">
+      <section>
         <div className="u-container py-band">
           <SectionHeader eyebrow="Everything" title="The full catalog." />
           <ul className="mt-12 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">

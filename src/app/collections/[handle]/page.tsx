@@ -74,14 +74,25 @@ export default async function CollectionPage({
             </ol>
           </nav>
 
-          <div className="max-w-2xl">
-            <p className="u-label">{collection.group}</p>
-            <h1 className="mt-4 font-display text-display-lg">{collection.title}</h1>
-            {collection.description && (
-              <p className="mt-5 max-w-prose text-[0.9375rem] leading-relaxed text-ink-500">
-                {collection.description}
-              </p>
-            )}
+          <div className="flex items-end justify-between gap-10">
+            <div className="max-w-2xl animate-rise">
+              <p className="u-label">{collection.group}</p>
+              <h1 className="mt-4 font-display text-display-xl">{collection.title}</h1>
+              {collection.description && (
+                <p className="mt-6 max-w-prose text-base leading-relaxed text-ink-500">
+                  {collection.description}
+                </p>
+              )}
+            </div>
+
+            {/* The count, set as a figure. Decorative: the listing below
+                states it in words for assistive tech. */}
+            <p
+              aria-hidden="true"
+              className="hidden shrink-0 font-display text-display-xl tabular-nums text-ink-300 md:block"
+            >
+              {String(products.length).padStart(2, '0')}
+            </p>
           </div>
         </div>
       </section>

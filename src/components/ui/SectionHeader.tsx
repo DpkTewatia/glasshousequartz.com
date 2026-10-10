@@ -14,7 +14,7 @@ export default function SectionHeader({
   hrefLabel?: string;
 }) {
   return (
-    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div className="reveal flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
         {eyebrow && <p className="u-label">{eyebrow}</p>}
         <h2 className={`font-display text-display-md ${eyebrow ? 'mt-4' : ''}`}>{title}</h2>

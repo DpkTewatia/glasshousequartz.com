@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatPriceRange } from '@/lib/money';
+import { imageAspect, seamFade } from '@/lib/media';
 import type { Product } from '@/lib/types';
 
 /**
@@ -14,7 +15,7 @@ export default function Hero({ product }: { product: Product | null }) {
   return (
     <section className="border-b border-line">
       <div className="u-container grid items-center gap-12 py-14 lg:grid-cols-2 lg:gap-20 lg:py-24">
-        <div className="order-2 lg:order-1">
+        <div className="order-2 animate-rise lg:order-1">
           <p className="u-label">Sacramento, California · Since 2005</p>
 
           <h1 className="mt-7 font-display text-display-xl">
@@ -56,7 +57,7 @@ export default function Hero({ product }: { product: Product | null }) {
         </div>
 
         {product && (
-          <div className="order-1 lg:order-2">
+          <div className="order-1 animate-rise [animation-delay:120ms] lg:order-2">
             <Link href={`/products/${product.handle}`} className="group block">
               <div className="media-panel relative aspect-square overflow-hidden">
                 {product.images[0] && (
@@ -66,9 +67,13 @@ export default function Hero({ product }: { product: Product | null }) {
                     fill
                     priority
                     sizes="(min-width: 1024px) 46vw, 100vw"
+                    style={seamFade(imageAspect(product.images[0]))}
                     className="object-contain object-bottom transition-transform duration-1000 ease-gallery group-hover:scale-[1.03]"
                   />
                 )}
+                <span className="absolute left-0 top-0 bg-surface px-4 py-2 text-label uppercase text-ink-500">
+                  Featured piece
+                </span>
               </div>
               <div className="mt-4 flex items-baseline justify-between gap-6">
                 <p className="text-[0.9375rem]">

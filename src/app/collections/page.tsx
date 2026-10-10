@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getCollections } from '@/lib/catalog';
+import { getCollections, getImageAspects } from '@/lib/catalog';
+import { seamFade } from '@/lib/media';
 
 export const metadata: Metadata = {
   title: 'All Collections',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CollectionsPage() {
-  const collections = await getCollections();
+  const [collections, aspects] = await Promise.all([getCollections(), getImageAspects()]);
 
   const groups = collections.reduce<Record<string, typeof collections>>((acc, c) => {
     (acc[c.group] ??= []).push(c);
@@ -40,7 +41,7 @@ export default async function CollectionsPage() {
 
             <ul className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
               {items.map((c) => (
-                <li key={c.handle}>
+                <li key={c.handle} className="reveal">
                   <Link href={`/collections/${c.handle}`} className="group block">
                     <div className="media-panel relative aspect-square overflow-hidden">
                       {c.image && (
@@ -49,6 +50,7 @@ export default async function CollectionsPage() {
                           alt=""
                           fill
                           sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                          style={seamFade(aspects.get(c.image))}
                           className="object-contain object-bottom transition-transform duration-700 ease-gallery group-hover:scale-105"
                         />
                       )}

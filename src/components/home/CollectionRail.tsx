@@ -1,19 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { getImageAspects } from '@/lib/catalog';
+import { seamFade } from '@/lib/media';
 import type { Collection } from '@/lib/types';
 
 /**
  * Collection cards. On narrow screens this becomes a snap-scrolling rail so
  * the cards keep a usable size instead of shrinking to thumbnails.
  */
-export default function CollectionRail({ collections }: { collections: Collection[] }) {
+export default async function CollectionRail({ collections }: { collections: Collection[] }) {
+  const aspects = await getImageAspects();
+
   return (
     <ul
       className="hide-scrollbar -mx-gutter flex snap-x snap-mandatory gap-5 overflow-x-auto px-gutter
                  md:mx-0 md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 lg:grid-cols-4"
     >
       {collections.map((c) => (
-        <li key={c.handle} className="w-[72vw] shrink-0 snap-start sm:w-[48vw] md:w-auto">
+        <li key={c.handle} className="reveal w-[72vw] shrink-0 snap-start sm:w-[48vw] md:w-auto">
           <Link href={`/collections/${c.handle}`} className="group block">
             <div className="media-panel relative aspect-square overflow-hidden">
               {c.image && (
@@ -22,6 +26,7 @@ export default function CollectionRail({ collections }: { collections: Collectio
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 72vw"
+                  style={seamFade(aspects.get(c.image))}
                   className="object-contain object-bottom transition-transform duration-700 ease-gallery group-hover:scale-105"
                 />
               )}

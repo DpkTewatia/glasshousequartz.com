@@ -6,13 +6,27 @@
  * and stays crisp on any display — the dragon can return as a favicon or on
  * dark surfaces without changing this component.
  */
-export default function Wordmark({ className = '' }: { className?: string }) {
+export default function Wordmark({
+  className = '',
+  inverse = false,
+}: {
+  className?: string;
+  inverse?: boolean;
+}) {
   return (
     <span className={`flex flex-col leading-none ${className}`}>
-      <span className="text-[1.0625rem] font-medium uppercase tracking-[0.22em] text-ink">
+      <span
+        className={`text-[1.0625rem] font-medium uppercase tracking-[0.22em] ${
+          inverse ? 'text-white' : 'text-ink'
+        }`}
+      >
         Glasshouse
       </span>
-      <span className="mt-[3px] text-[0.5625rem] uppercase tracking-[0.44em] text-ink-400">
+      <span
+        className={`mt-[3px] text-[0.5625rem] uppercase tracking-[0.44em] ${
+          inverse ? 'text-white/50' : 'text-ink-400'
+        }`}
+      >
         Quartz
       </span>
     </span>

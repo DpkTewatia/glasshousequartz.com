@@ -66,6 +66,25 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Tells search engines who runs the store, from the same constants the footer uses.
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Store',
+  name: SITE.name,
+  url: SITE.url,
+  email: SITE.email,
+  foundingDate: SITE.founded,
+  description: SITE.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.city,
+    addressRegion: SITE.address.region,
+    postalCode: SITE.address.postalCode,
+    addressCountry: SITE.address.country,
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
@@ -77,6 +96,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
 
         <CartProvider>
           <AgeGate />
