@@ -110,7 +110,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <ProductGallery images={product.images} title={product.title} />
 
-          <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
+          <div className="min-w-0 lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
             <p className="u-label">{product.brand}</p>
             <h1 className="mt-4 font-display text-display-md">{product.title}</h1>
 

@@ -34,7 +34,7 @@ export default function ProductGallery({
   const panelAspect = Math.min(1.5, Math.max(1, imageAspect(images[0]) ?? 1));
 
   return (
-    <div className="flex flex-col-reverse gap-4 lg:flex-row lg:gap-6">
+    <div className="flex min-w-0 flex-col-reverse gap-4 lg:flex-row lg:gap-6">
       {images.length > 1 && (
         <ul
           className="hide-scrollbar flex gap-3 overflow-x-auto lg:max-h-[42rem] lg:w-20 lg:shrink-0 lg:flex-col lg:overflow-y-auto"
@@ -56,7 +56,6 @@ export default function ProductGallery({
                   alt=""
                   fill
                   sizes="80px"
-                  style={seamFade(imageAspect(img))}
                   className="object-contain object-bottom"
                 />
               </button>
@@ -66,7 +65,7 @@ export default function ProductGallery({
       )}
 
       <div
-        className="media-panel relative flex-1 self-start overflow-hidden"
+        className="media-panel relative w-full overflow-hidden lg:w-auto lg:flex-1 lg:self-start"
         style={{ aspectRatio: panelAspect }}
       >
         <Image
