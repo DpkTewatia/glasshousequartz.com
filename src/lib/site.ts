@@ -57,7 +57,7 @@ export const STORY = {
   eyebrow: 'Made and sold in Sacramento',
   heading: 'We sell what we use.',
   body: [
-    'Glasshouse Quartz began as a glass shop, not a marketing exercise. Twenty years of standing behind a counter taught us which pieces come back broken and which ones customers replace only because they wanted a second colour.',
+    'Glasshouse Quartz began as a glass shop, not a marketing exercise. Twenty years of standing behind a counter taught us which pieces come back broken and which ones customers replace only because they wanted a second color.',
     'That is why our bangers are full weld. A single piece of quartz, heated and worked into shape, with the base and the cup formed as one — because the joint is where a banger fails first.',
   ],
 } as const;

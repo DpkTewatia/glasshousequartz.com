@@ -64,6 +64,17 @@
  * and utilities.
  */
 @layer base {
+  /* Preflight normally supplies this and Reboot does not: without a default
+     border-style, `border-b` and friends set a width on a border that is
+     still `none`, and every hairline on the site goes missing. */
+  *,
+  ::before,
+  ::after {
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--line);
+  }
+
   /* Reboot sets these from its own scale; the gallery wants a tighter rhythm. */
   body {
     font-synthesis-weight: none;

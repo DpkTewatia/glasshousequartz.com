@@ -10,6 +10,11 @@ import type { Product } from '@/lib/types';
  * — most of these products are photographed from several angles, and the
  * colourways are the reason people buy. Cards with only one image simply
  * scale it slightly instead.
+ *
+ * The panel is square and the photo sits on its bottom edge with no padding.
+ * Half the catalog is shot square and fills the panel outright; the rest is
+ * 3:2, and anchoring it to the bottom hides the one edge that shows — the
+ * grey studio floor — leaving only the near-white top to meet the panel.
  */
 export default function ProductCard({
   product,
@@ -27,7 +32,7 @@ export default function ProductCard({
   return (
     <article className="group">
       <Link href={`/products/${product.handle}`} className="block">
-        <div className="media-panel relative aspect-[4/5] overflow-hidden">
+        <div className="media-panel relative aspect-square overflow-hidden">
           {first ? (
             <>
               <Image
@@ -36,7 +41,7 @@ export default function ProductCard({
                 fill
                 sizes={sizes}
                 priority={priority}
-                className={`object-contain p-2 transition-all duration-700 ease-gallery ${
+                className={`object-contain object-bottom transition-all duration-700 ease-gallery ${
                   second ? 'group-hover:opacity-0' : 'group-hover:scale-105'
                 }`}
               />
@@ -48,7 +53,7 @@ export default function ProductCard({
                   fill
                   sizes={sizes}
                   loading="lazy"
-                  className="object-contain p-2 opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
+                  className="object-contain object-bottom opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
                 />
               )}
             </>
@@ -66,7 +71,7 @@ export default function ProductCard({
         </div>
 
         <div className="pt-4">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
             <h3 className="text-[0.9375rem] leading-snug">
               <span className="link-draw">{product.title}</span>
             </h3>
@@ -76,7 +81,7 @@ export default function ProductCard({
           </div>
 
           {swatchCount > 1 && (
-            <p className="mt-1.5 text-xs text-ink-400">{swatchCount} colours</p>
+            <p className="mt-1.5 text-xs text-ink-400">{swatchCount} colors</p>
           )}
         </div>
       </Link>

@@ -15,14 +15,14 @@ export default function CollectionRail({ collections }: { collections: Collectio
       {collections.map((c) => (
         <li key={c.handle} className="w-[72vw] shrink-0 snap-start sm:w-[48vw] md:w-auto">
           <Link href={`/collections/${c.handle}`} className="group block">
-            <div className="media-panel relative aspect-[4/5] overflow-hidden">
+            <div className="media-panel relative aspect-square overflow-hidden">
               {c.image && (
                 <Image
                   src={c.image}
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 22vw, (min-width: 768px) 45vw, 72vw"
-                  className="object-contain p-3 transition-transform duration-700 ease-gallery group-hover:scale-105"
+                  className="object-contain object-bottom transition-transform duration-700 ease-gallery group-hover:scale-105"
                 />
               )}
               <span className="absolute bottom-0 left-0 bg-surface px-4 py-2 text-label uppercase text-ink-500">

@@ -7,11 +7,17 @@ import type { Config } from 'tailwindcss';
  *
  * Preflight is therefore OFF. Running Preflight and Reboot together is the
  * usual cause of Tailwind/Bootstrap projects fighting the cascade: both reset
- * the same elements, and whichever loads second silently wins. With one reset
- * and Tailwind utilities loading afterwards, utilities reliably override
- * Bootstrap component styles at equal specificity.
+ * the same elements, and whichever loads second silently wins.
+ *
+ * `important` is ON because Bootstrap's stylesheet also ships its own utility
+ * classes, all marked !important, and dozens share a name with a Tailwind
+ * utility while meaning something else (`mt-4` is 1.5rem there, `p-3` is 1rem,
+ * `order-2` and `opacity-0` cannot be undone by a responsive or hover variant).
+ * Marking Tailwind's utilities important too puts both on the same footing,
+ * and since Tailwind loads second, the Tailwind value is the one that applies.
  */
 const config: Config = {
+  important: true,
   corePlugins: { preflight: false },
   content: ['./src/**/*.{ts,tsx,mdx}'],
   theme: {

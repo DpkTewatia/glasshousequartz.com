@@ -5,7 +5,7 @@ import { ADDRESS_LINE, FOOTER_LINKS, PAYMENT_METHODS, SITE } from '@/lib/site';
 
 export default function Footer() {
   return (
-    <footer className="mt-band border-t border-line">
+    <footer className="border-t border-line">
       {/* Newsletter */}
       <div className="border-b border-line">
         <div className="u-container grid gap-10 py-band lg:grid-cols-2 lg:items-end lg:gap-20">

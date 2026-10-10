@@ -65,8 +65,8 @@ export const PAGES: SitePage[] = [
       {
         heading: 'Handmade means small numbers',
         body: [
-          'Chris works alone and builds each piece by hand. That sets a hard ceiling on how much exists: there is no production run to reorder, and a colour or a shape that sells through is usually gone for good.',
-          'It also means no two pieces are quite identical. Small variations in thickness, colour depth and working marks are a signature of hand-blown glass, not a defect.',
+          'Chris works alone and builds each piece by hand. That sets a hard ceiling on how much exists: there is no production run to reorder, and a color or a shape that sells through is usually gone for good.',
+          'It also means no two pieces are quite identical. Small variations in thickness, color depth and working marks are a signature of hand-blown glass, not a defect.',
         ],
       },
       {

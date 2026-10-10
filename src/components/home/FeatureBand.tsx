@@ -72,13 +72,13 @@ export default function FeatureBand({
         </div>
 
         <div className={reverse ? 'lg:order-1' : ''}>
-          <div className="media-panel-wide relative aspect-[5/4] overflow-hidden">
+          <div className="media-panel-wide relative aspect-[3/2] overflow-hidden">
             <Image
               src={image}
               alt={imageAlt}
               fill
               sizes="(min-width: 1024px) 46vw, 100vw"
-              className="object-contain p-3 md:p-5"
+              className="object-contain object-bottom"
             />
           </div>
         </div>

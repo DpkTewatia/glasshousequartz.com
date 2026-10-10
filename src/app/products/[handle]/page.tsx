@@ -28,7 +28,7 @@ export async function generateMetadata({
     product.description ||
     `${product.title} from ${product.brand}. ${
       product.options.find((o) => /colou?r/i.test(o.name))?.values.length ?? 0
-        ? `Available in ${product.options.find((o) => /colou?r/i.test(o.name))!.values.length} colourways. `
+        ? `Available in ${product.options.find((o) => /colou?r/i.test(o.name))!.values.length} colors. `
         : ''
     }Ships from Sacramento, California.`;
 

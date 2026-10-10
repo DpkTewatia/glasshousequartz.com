@@ -58,7 +58,7 @@ export default function Hero({ product }: { product: Product | null }) {
         {product && (
           <div className="order-1 lg:order-2">
             <Link href={`/products/${product.handle}`} className="group block">
-              <div className="media-panel relative aspect-[5/6] overflow-hidden">
+              <div className="media-panel relative aspect-square overflow-hidden">
                 {product.images[0] && (
                   <Image
                     src={product.images[0].src}
@@ -66,7 +66,7 @@ export default function Hero({ product }: { product: Product | null }) {
                     fill
                     priority
                     sizes="(min-width: 1024px) 46vw, 100vw"
-                    className="object-contain p-4 transition-transform duration-1000 ease-gallery group-hover:scale-[1.03] md:p-6"
+                    className="object-contain object-bottom transition-transform duration-1000 ease-gallery group-hover:scale-[1.03]"
                   />
                 )}
               </div>

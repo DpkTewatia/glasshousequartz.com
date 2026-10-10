@@ -42,14 +42,14 @@ export default async function CollectionsPage() {
               {items.map((c) => (
                 <li key={c.handle}>
                   <Link href={`/collections/${c.handle}`} className="group block">
-                    <div className="media-panel relative aspect-[4/5] overflow-hidden">
+                    <div className="media-panel relative aspect-square overflow-hidden">
                       {c.image && (
                         <Image
                           src={c.image}
                           alt=""
                           fill
                           sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                          className="object-contain p-3 transition-transform duration-700 ease-gallery group-hover:scale-105"
+                          className="object-contain object-bottom transition-transform duration-700 ease-gallery group-hover:scale-105"
                         />
                       )}
                     </div>

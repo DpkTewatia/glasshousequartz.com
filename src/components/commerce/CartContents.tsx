@@ -72,7 +72,7 @@ export default function CartContents({
                     alt={line.product.imageAlt}
                     fill
                     sizes="128px"
-                    className="object-contain p-2"
+                    className="object-contain object-bottom"
                   />
                 )}
               </Link>
@@ -170,13 +170,11 @@ export default function CartContents({
                   Checkout
                 </button>
                 <p className="mt-4 border-t border-line pt-4 text-xs leading-relaxed text-ink-500">
-                  Checkout is not connected yet. Payment runs through a provider — see{' '}
-                  <code className="text-ink">src/lib/payments.ts</code> — so no card data is ever
-                  handled by this site. Until then, email{' '}
+                  Online checkout is not available yet. To place this order, email{' '}
                   <a href={`mailto:${supportEmail}`} className="link-draw text-ink">
                     {supportEmail}
                   </a>{' '}
-                  to place an order.
+                  and we will take it from there.
                 </p>
               </>
             )}
