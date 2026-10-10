@@ -10,7 +10,8 @@ import type { Product } from '@/lib/types';
  * The second image is preloaded underneath the first and cross-faded on hover
  * — most of these products are photographed from several angles, and the
  * colourways are the reason people buy. Cards with only one image simply
- * scale it slightly instead.
+ * scale it slightly instead. The second image is not rendered at phone widths,
+ * where there is no hover to show it, so it is never downloaded there.
  *
  * The panel is square and the photo sits on its bottom edge with no padding.
  * Half the catalog is shot square and fills the panel outright; the rest is
@@ -42,7 +43,7 @@ export default function ProductCard({
                 alt={first.alt || product.title}
                 fill
                 sizes={sizes}
-                priority={priority}
+                loading={priority ? 'eager' : 'lazy'}
                 style={seamFade(imageAspect(first))}
                 className={`object-contain object-bottom transition-all duration-700 ease-gallery ${
                   second ? 'group-hover:opacity-0' : 'group-hover:scale-105'
@@ -57,7 +58,7 @@ export default function ProductCard({
                   sizes={sizes}
                   loading="lazy"
                   style={seamFade(imageAspect(second))}
-                  className="object-contain object-bottom opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100"
+                  className="hidden object-contain object-bottom opacity-0 transition-opacity duration-700 ease-gallery group-hover:opacity-100 md:block"
                 />
               )}
             </>

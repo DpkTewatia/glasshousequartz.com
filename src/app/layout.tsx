@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css';
 
 import type { Metadata, Viewport } from 'next';
+import { preconnect } from 'react-dom';
 import { Inter, Instrument_Serif } from 'next/font/google';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
@@ -86,6 +87,10 @@ const organizationJsonLd = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Every photo comes from this host; opening the connection while the HTML
+  // is still arriving takes that setup time off the first image.
+  preconnect('https://cdn.shopify.com');
+
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="bg-surface font-sans text-ink antialiased">

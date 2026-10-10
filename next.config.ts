@@ -2,14 +2,15 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    // Product photography still lives on the Shopify CDN. Next optimises and
-    // re-serves it from our own origin, so pages get AVIF/WebP and correct
-    // sizing without re-hosting 590 images on day one.
-    remotePatterns: [
-      { protocol: 'https', hostname: 'cdn.shopify.com', pathname: '/**' },
-    ],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    // Product photography lives on the Shopify CDN, and the loader asks that
+    // CDN directly for each photo at the width needed, in WebP. Nothing is
+    // re-encoded on this server. See src/lib/image-loader.ts.
+    loader: 'custom',
+    loaderFile: './src/lib/image-loader.ts',
+    // The widths offered to the browser. Capped at 2000: the largest frame on
+    // the site is half a wide desktop screen, so nothing bigger is ever shown.
+    deviceSizes: [480, 640, 750, 828, 1080, 1200, 1600, 2000],
+    imageSizes: [96, 160, 256, 384],
   },
 
   // catalog.json is read with fs at runtime, so tracing cannot infer it.

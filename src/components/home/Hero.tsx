@@ -65,7 +65,7 @@ export default function Hero({ product }: { product: Product | null }) {
                     src={product.images[0].src}
                     alt={product.images[0].alt || product.title}
                     fill
-                    priority
+                    preload
                     sizes="(min-width: 1024px) 46vw, 100vw"
                     style={seamFade(imageAspect(product.images[0]))}
                     className="object-contain object-bottom transition-transform duration-1000 ease-gallery group-hover:scale-[1.03]"

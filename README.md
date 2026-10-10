@@ -228,8 +228,9 @@ deterrent and a signal of intent, not identity verification.
 `cookies-*` family → `/collections/cookies`, and so on) so existing links and
 indexed URLs keep working.
 
-Product images are still served from Shopify's CDN and optimised through
-`next/image` (AVIF/WebP, correct sizing) rather than re-hosted. That is fine
+Product images are served straight from Shopify's CDN, which resizes each one
+to the width requested and returns WebP — or AVIF for a few PNG originals — (see
+`src/lib/image-loader.ts`), rather than being re-hosted. That is fine
 indefinitely, but it does mean the Shopify CDN stays a dependency — plan to
 move the 590 images if the Shopify account is ever closed.
 

@@ -73,7 +73,7 @@ export default function ProductGallery({
           src={current.src}
           alt={current.alt || title}
           fill
-          priority
+          preload
           sizes="(min-width: 1024px) 46vw, 100vw"
           style={seamFade(imageAspect(current), panelAspect)}
           className="animate-fade object-contain object-bottom"
